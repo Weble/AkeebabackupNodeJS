@@ -8,7 +8,7 @@
   },
   "repositories": [{
     "type": "git",
-    "url": "git://github.com/Skullbock/akeebabackup-nodejs.git"
+    "url": "git://github.com/WebleIT/AkeebabackupNodeJS.git"
   }],
   "keywords": [
     "backup",
@@ -16,7 +16,7 @@
     "akeebabakup",
     "joomla"
   ],
-  "author": "Daniele Rosario <daniele@weble.it> (http://www.weble.it)",
+  "author": "Weble <daniele@weble.it> (http://www.weble.it)",
   "license": "GPLv3",
   "dependencies": {
     "request": "2.12.x"
