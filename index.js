@@ -30,15 +30,23 @@ sys.inherits(AkeebaBackup, emitter);
 /**
  * Backup a website
  *
+ * @param  {int}   profile  Id of the profile to use. Default = 1
+ *
  * @fires   started     When the backup actually is started on the website
  * @fires   step        When another step of the backup is finished
  * @fires   completed   When the backup is completed
  */
-AkeebaBackup.prototype.backup = function() {
+AkeebaBackup.prototype.backup = function(profile) {
 
     $this = this;        
+
+    var data = {};
+
+    if (profile) {
+        data.profile = parseInt(profile);
+    }
     
-    var json = this.getRequest('startBackup');
+    var json = this.getRequest('startBackup', data);
 
     this.sendRequest(json, function (data) {
         
