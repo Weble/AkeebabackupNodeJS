@@ -52,7 +52,8 @@ var akeeba = require('akeebabackup');
 var yoursite = new akeeba('http://www.example.com', 'yoursecretkey');
 
 try {
-	yoursite.backup();
+	// yoursite.backup(['profile_id']); 
+	yoursite.backup(); 
 	
 	yoursite.on('started', function(data){
 		console.log('backup started');
