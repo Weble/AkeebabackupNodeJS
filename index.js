@@ -49,16 +49,19 @@ AkeebaBackup.prototype.backup = function(profile) {
     var json = this.getRequest('startBackup', data);
 
     this.sendRequest(json, function (data) {
-        
-        $this.emit("started", {data: data});
-        
-        // Backup has to continue?
-        if (data.HasRun) {
-            // Go on!
-            $this.stepBackup(false);
+        if (data) {
+            $this.emit("started", {data: data});
+            
+            // Backup has to continue?
+            if (data.HasRun) {
+                // Go on!
+                $this.stepBackup(false);
+            } else {
+                $this.emit("completed", {data: data});
+            }
         } else {
-            $this.emit("completed", {data: data});
-        }
+            $this.emit("error", {data: data});
+        }       
     });
 }
 
@@ -87,14 +90,18 @@ AkeebaBackup.prototype.srp = function(extension, type, group) {
     var json = this.getRequest('startSRPBackup', data);
 
     this.sendRequest(json, function (data) {
-        $this.emit("started", {data: data});
+        if (data) {
+            $this.emit("started", {data: data});
 
-        // Backup has to continue?
-        if (data.HasRun) {
-            // Go on!
-            $this.stepBackup(true);
+            // Backup has to continue?
+            if (data.HasRun) {
+                // Go on!
+                $this.stepBackup(true);
+            } else {
+                $this.emit("completed", {data: data});
+            }
         } else {
-            $this.emit("completed", {data: data});
+            $this.emit("error", {data: data});
         }
     });
 }
@@ -119,13 +126,17 @@ AkeebaBackup.prototype.stepBackup = function(srp) {
     var json = this.getRequest('stepBackup', data);
 
     this.sendRequest(json, function (data) {
-        // Backup has to continue?
-        if (data.HasRun) {
-            // Go on!
-            $this.emit("step", {data: data});
-            $this.stepBackup(srp);
+        if (data) {
+            // Backup has to continue?
+            if (data.HasRun) {
+                // Go on!
+                $this.emit("step", {data: data});
+                $this.stepBackup(srp);
+            } else {
+                $this.emit("completed", {data: data});
+            }
         } else {
-            $this.emit("completed", {data: data});
+            $this.emit("error", {data: data});
         }
     });
 }
