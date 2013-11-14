@@ -1,6 +1,6 @@
 {
   "name": "akeebabackup",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "NodeJS npm module for AkeebaBackup JSON APIs",
   "main": "index.js",
   "scripts": {

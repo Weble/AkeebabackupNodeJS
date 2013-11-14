@@ -586,13 +586,17 @@ AkeebaBackup.prototype.sendRequest = function(json, callback, do_not_parse) {
  * @return {string}      The parsed data
  */
 AkeebaBackup.prototype.parseResponse = function(data) {
-    var data = data.substring(3, data.length - 3);
-    try {
-        var data = JSON.parse(data);
-        if (data.body && data.body.status == 200) {
-            return JSON.parse(data.body.data);
+    if (data && data.length >= 3) {
+        var data = data.substring(3, data.length - 3);
+        try {
+            var data = JSON.parse(data);
+            if (data.body && data.body.status == 200) {
+                return JSON.parse(data.body.data);
+            }
+        } catch(e) {
+            return {};
         }
-    } catch(e) {
+    } else {
         return {};
     }
 }
