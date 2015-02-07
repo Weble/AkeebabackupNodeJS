@@ -30,6 +30,7 @@ try {
 
 Here you'll be able to see a list of methods available in the akeebabackup module, such as:
 - [backup](#backup "backup")
+- [stopBackup](#backup "stopBackup")
 - [srp](#backup "srp")
 - [delete](#backup "delete")
 - [deleteFiles](#backup "deleteFiles")
@@ -64,6 +65,29 @@ try {
 	yoursite.on('completed', function(data){
 		console.log('backup completed');
 	});
+} catch(e) {
+	console.log(e);
+}
+```
+
+### backup
+
+Stops a running backup
+
+```js
+var akeeba = require('akeebabackup');
+var yoursite = new akeeba('http://www.example.com', 'yoursecretkey');
+
+try {
+	// yoursite.backup(['profile_id']); 
+	yoursite.backup(); 
+	
+	yoursite.on('stopped', function(){
+		console.log('backup stopped');
+	});
+	
+	yoursite.stopBackup();
+
 } catch(e) {
 	console.log(e);
 }

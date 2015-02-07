@@ -23,6 +23,7 @@ function AkeebaBackup(url, secret) {
 
     this.url = url;
     this.secret = secret;
+    this.stop = false;
 }
 // Inheritance
 sys.inherits(AkeebaBackup, emitter);
@@ -113,9 +114,15 @@ AkeebaBackup.prototype.srp = function(extension, type, group) {
  *
  * @fires   step        
  * @fires   completed
+ * @fires   stopped
  */
 AkeebaBackup.prototype.stepBackup = function(srp) {
-       
+    
+    if (this.stop) {
+        this.emit('stopped');
+        return;
+    }
+
     var $this = this;
     
     var data = {};
@@ -139,6 +146,13 @@ AkeebaBackup.prototype.stepBackup = function(srp) {
             $this.emit("error", {data: data});
         }
     });
+}
+
+/**
+ * Stop a Backup
+ */
+AkeebaBackup.prototype.stopBackup = function() {
+    this.stop = true;
 }
 
 /**
@@ -581,7 +595,7 @@ AkeebaBackup.prototype.sendRequest = function(json, callback, do_not_parse) {
 /**
  * Parse the AkeebaBackup Response
  *
- * @param  {strng} data The data sent by AkeebaBackup
+ * @param  {string} data The data sent by AkeebaBackup
  *
  * @return {string}      The parsed data
  */
